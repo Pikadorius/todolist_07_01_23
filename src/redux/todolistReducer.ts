@@ -1,8 +1,11 @@
 import {TodolistType} from '../API/API';
 import {createAction, createReducer} from '@reduxjs/toolkit';
 
+export type  FilterValueType = 'all' | 'completed' | 'active'
+export type TodolistDomainType = TodolistType & {filter: FilterValueType}
 
 const initialState = [] as TodolistType[]
+
 /*
 export const todolistReducer = (state=initialState,action:SetTodolistACType):TodolistType[]=> {
     switch (action.type) {
@@ -13,7 +16,6 @@ export const todolistReducer = (state=initialState,action:SetTodolistACType):Tod
     }
 }
 */
-
 // export const setTodolists = (state: TodolistType[]) => {
 //     return {
 //         type: 'SET_TODOLISTS',
