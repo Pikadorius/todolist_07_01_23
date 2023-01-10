@@ -40,8 +40,52 @@ export const todolistReducer = createReducer(initialState, builder => {
     builder.addCase(addTodolistAC, (state, action) => {
         return [action.payload, ...state]
     })
-
 })
+
+/*
+
+export const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers: {},
+    extraReducers: builder => builder
+        .addCase(initializeApp.fulfilled, (state) => {
+            state.isInitialized = true
+        })
+        .addCase(initializeApp.rejected, (state) => {
+            state.isInitialized = true
+        })
+        .addCase(setAppStatus, (state, action) => {
+            state.status = action.payload.status
+        })
+        .addCase(setAppError, (state, action) => {
+            state.error = action.payload.error
+        })
+})
+
+export const slice = createSlice({
+    name: 'app',
+    export const initializeApp = createAsyncThunk('app/initializeApp', async (param, {
+        dispatch,
+        rejectWithValue
+    }) => {
+        dispatch(setAppStatus({status: 'loading'}))
+        try {
+            const res = await authAPI.me()
+            if (res.data.resultCode === 0) {
+                dispatch(setIsLoggedIn({isLoggedIn: true}))
+                dispatch(setAppStatus({status: 'succeeded'}))
+            } else {
+                dispatch(setAppStatus({status: 'failed'}))
+                return rejectWithValue(null)
+            }
+        } catch (error) {
+            handleServerNetworkError(dispatch, error as Error)
+            return rejectWithValue(null)
+        }
+    })
+
+*/
 
 
 export const deleteTodolistTC = (todolistId:string) => (dispatch: AppDispatch) => {

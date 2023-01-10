@@ -9,7 +9,7 @@ import AddItemForm from './AddItemForm';
 
 const Todolist = (props: TodolistType) => {
     const tasks = useSelector<StateType, TaskResponseType>(state => state.tasks[props.id])
-    const dispatch: AppDispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     useEffect(() => {
         dispatch(getTasksForTodolist(props.id))
