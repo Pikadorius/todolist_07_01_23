@@ -1,39 +1,27 @@
 import React, {useEffect} from 'react';
-import {TaskResponseType, tasksAPI, todolistsAPI, TodolistType} from '../API/API';
+import {TaskResponseType, TodolistType} from '../API/API';
 import {useDispatch, useSelector} from 'react-redux';
-import {StateType} from '../redux/store';
-import {addNewTaskTC, setTasks} from '../redux/tasksReducer';
+import {AppDispatch, StateType} from '../redux/store';
+import {addNewTaskTC, getTasksForTodolist} from '../redux/tasksReducer';
 import Task from './Task';
-import {deleteTodolistAC} from '../redux/todolistReducer';
+import {deleteTodolistTC} from '../redux/todolistReducer';
 import AddItemForm from './AddItemForm';
 
 const Todolist = (props: TodolistType) => {
     const tasks = useSelector<StateType, TaskResponseType>(state => state.tasks[props.id])
-    const dispatch = useDispatch()
+    const dispatch: AppDispatch = useDispatch()
 
     useEffect(() => {
-        tasksAPI.getTasks(props.id).then(res => dispatch(setTasks(props.id, res)))
+        dispatch(getTasksForTodolist(props.id))
     }, [])
 
     const deleteTodo = () => {
-        todolistsAPI.deleteTodolist(props.id).then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(deleteTodolistAC(props.id))
-            }
-        })
+        dispatch(deleteTodolistTC(props.id))
     }
 
     const addNewTask = (title: string) => {
-        /*tasksAPI.createTask(props.id, title).then(res => {
-            console.log(res)
-            debugger
-            if (res.data.resultCode === 0) {
-                dispatch(createNewTask(props.id, res.data.data.item))
-            }
-        })*/
-        addNewTaskTC(props.id, title)(dispatch)
+        dispatch(addNewTaskTC(props.id, title))
     }
-
 
     return (
         <div>

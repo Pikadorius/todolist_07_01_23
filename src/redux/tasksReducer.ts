@@ -1,6 +1,7 @@
 import {TaskResponseType, tasksAPI, TaskType} from '../API/API';
 import {createAction, createReducer, Dispatch} from '@reduxjs/toolkit';
 import {addTodolistAC, deleteTodolistAC} from './todolistReducer';
+import {AppDispatch} from './store';
 
 type TaskStateType = {
     [key: string]: TaskResponseType
@@ -68,7 +69,7 @@ export const tasksReducer = createReducer(initialState, builder => {
 })
 
 
-export const addNewTaskTC = (todolistId: string, title: string) => (dispatch:Dispatch) => {
+export const addNewTaskTC = (todolistId: string, title: string) => (dispatch:AppDispatch) => {
     tasksAPI.createTask(todolistId, title).then(res => {
         console.log(res)
         debugger
@@ -76,4 +77,9 @@ export const addNewTaskTC = (todolistId: string, title: string) => (dispatch:Dis
             dispatch(createNewTask(todolistId, res.data.data.item))
         }
     })
+}
+
+
+export const getTasksForTodolist = (todolistId:string) => (dispatch:AppDispatch) => {
+    tasksAPI.getTasks(todolistId).then(res => dispatch(setTasks(todolistId, res)))
 }

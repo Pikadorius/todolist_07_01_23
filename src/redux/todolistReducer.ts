@@ -1,5 +1,6 @@
-import {TodolistType} from '../API/API';
+import {todolistsAPI, TodolistType} from '../API/API';
 import {createAction, createReducer} from '@reduxjs/toolkit';
+import {AppDispatch} from './store';
 
 export type  FilterValueType = 'all' | 'completed' | 'active'
 export type TodolistDomainType = TodolistType & {filter: FilterValueType}
@@ -41,3 +42,12 @@ export const todolistReducer = createReducer(initialState, builder => {
     })
 
 })
+
+
+export const deleteTodolistTC = (todolistId:string) => (dispatch: AppDispatch) => {
+    todolistsAPI.deleteTodolist(todolistId).then(res => {
+        if (res.data.resultCode === 0) {
+            dispatch(deleteTodolistAC(todolistId))
+        }
+    })
+}
